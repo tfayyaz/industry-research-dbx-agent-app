@@ -1,0 +1,48 @@
+name: Archive new RESOURCES links
+
+on:
+  push:
+    paths:
+      - "RESOURCES.md"
+
+permissions:
+  contents: write
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install markitdown playwright
+          python -m playwright install chromium
+
+      - name: Archive new resources
+        env:
+          BASE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          python scripts/archive_resources.py "$BASE_SHA" "$HEAD_SHA"
+
+      - name: Commit archived resources
+        run: |
+          if git status --porcelain | grep -q "resources-archive"; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add resources-archive
+            git commit -m "Archive new RESOURCES links"
+            git push
+          else
+            echo "No archived resources to commit."
+          fi
