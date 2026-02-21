@@ -1,0 +1,111 @@
+You need to enable JavaScript to run this app.
+
+[![Ramp](data:image/svg+xml...)
+
+Builders Blog](/)
+
+[Home](https://ramp.com)
+
+[We're hiring!](https://jobs.ashbyhq.com/ramp?utm_source=NrlKrPMv53)
+
+# Meet Ramp Research: Our Agentic Data Analyst
+
+Faiz Hilaly
+
+Cesar Duran
+
+Jay Sobel
+
+–
+
+September 18, 2025
+
+*This article covers how we built Ramp Research, an AI agent that addressed our data bottleneck and is now answering thousands of questions per month, reshaping our decision-making culture and saving our customers time.*
+
+Data questions don't exactly crash the system, but they quietly slow every decision. Each one becomes a ping in `#help-data`, stacking up behind a single on-call analyst. Tabs sprawl – across Looker, Snowflake, and dbt docs – and the answer lands hours later, after the decision window has narrowed.
+
+![Help Data Meme](/assets/help_data_meme-B7zdSBNd.png)
+
+This is the data bottleneck. The consequences are that decisions wait and most questions go unasked, as people hesitate to add to the growing queue of requests. This bottleneck is often treated as an inevitable byproduct of scale, but we don't accept that.
+
+![Analytics Bottleneck](/assets/analytics_bottleneck-D-xjjhW3.png)
+
+# Building Ramp Research
+
+Ramp Research is our in-house AI analyst agent, able to answer data\* questions directly in Slack, 24/7, in minutes – not hours. **Since launching in early August, Ramp Research has answered over 1,800 data questions across more than 1,200 conversations with 300 different users.**
+
+![Ramp Research Channel Screenshot](/assets/rr_channel_screenshot-H-bxt7AJ.png)
+
+\**Ramp Research does not have access to any personally identifiable information (PII).*
+
+## Defining the Search Space
+
+Large-scale data, without the necessary context, is nearly impossible to use. At Ramp, that context lives in dbt, Looker, and Snowflake. We aggregated and indexed this metadata, allowing the agent to fetch the right models and form precise queries.
+
+Even with the relevant data context, the agent struggled to connect its understanding of our data to the different domains of Ramp’s business. Much of that knowledge is tacit and lives with domain owners on the analytics team. To impart our agent with an expert-level understanding of each domain, we relied on domain owners to write up technical documentation on their respective areas. These documents were then organized into a file system that Ramp Research can access as needed.
+
+Scale remained the challenge. Our analytics warehouse has thousands of tables and views, and many questions require row-level inspection to get right. These requirements were perfect for an agentic solution. Rather than rely exclusively on generic compression methods, such as keyword or vector search, we gave the agent tools to inspect column values, branch, and backtrack – reasoning through the data the way a human analyst would.
+
+![Ramp Research Agent Architecture](/assets/rr_agent_architecture-DHq3d7eD.png)
+
+## Slack as an Interface
+
+Slack is our internal hub, so it was the obvious choice of interface for Ramp Research. The `#ramp-research-beta` channel now has 500+ members, many of whom have helped guide our development.
+
+### Data Previews
+
+Early on, users had to open Redash or Snowflake to inspect data and verify answers. We've added in-thread CSV previews so they can validate results without leaving Slack. This has been especially helpful to users less familiar with SQL and BI tools.
+
+![Ramp Research Response Screenshot](/assets/rr_response_screenshot-DTEkbWJD.png)
+
+### Multi-turn Conversations
+
+Making each thread stateful has allowed users to clarify intent, collaborate in threads, and reason through complex problems with Ramp Research as their data expert. The agent's performance also saw an end-to-end improvement as a result.
+
+![Ramp Research Multi-turn Conversation Screenshot](/assets/rr_multiturn_screenshot-BoUHauKE.png)
+
+### Beyond `#ramp-research-beta`
+
+Delivering Ramp Research as a Slack app has enabled teams to plug it into existing workflows, adding it to alert channels to diagnose failed transactions and project channels to scope out new features.
+
+![Alert Message Screenshot](/assets/rr_alert_message-dM1fN1es.png)
+
+![Alert Response Screenshot](/assets/rr_alert_response-z0-MzuPG.png)
+
+## Evaluations
+
+Our first approach was to implement a human-in-the-loop system in Slack that pinged domain owners for every in-domain question. This solution didn’t scale, as effort still increased with request volume and reintroduced the core bottleneck.
+
+Rather than evaluating each question, we shifted to evaluating our context layer. With domain experts, we listed the high-priority concepts in every domain and wrote end-to-end tests. These exposed blind spots but gave little diagnosis as to why Ramp Research would pass or fail.
+
+So we built a Python mini-framework in our dbt project. It asserts not only on the final answer but also the intermediate steps, including expected tool calls, table references, and query shape. This suite enabled us to close the feedback loop: update context, run tests, and confirm improvements.
+
+# Scaling our Data-Driven Culture
+
+Collapsing the cost of asking a question to near-zero changes who asks, when they ask, and what they ask. The result is a *10-20x* increase in the number of questions people ask. Most of that growth comes from questions that previously died in drafts or never left someone’s head.
+
+![Ramp Research Usage Chart](/assets/rr_usage_chart-DqwLRD1r.png)
+
+In the last 4 weeks, Ramp Research answered 1,476 questions in #ramp-research-beta, compared to 66 answered in #help-data.
+
+That demand matters because small edges compound. Like counting cards, a one- or two-point lift in decision quality doesn't show up in the margin, but spread across thousands of pricing tweaks, GTM filters, and feature rollouts, it becomes material. We haven’t changed the stakes of any single hand, but we’ve raised the floor on all of them.
+
+These benefits reach customers in the form of faster answers from account managers, better bug isolation, and sharper roadmap bets, just to name a few. When it’s trivial to validate a hypothesis, our team can move with more conviction and less rework, allowing us to focus on what matters: shipping delightful products that save our customers time and money.
+
+# Looking Forward
+
+Increasingly, we're seeing teams start to use Ramp Research to automate their existing workflows, like generating customer case studies and detecting common fraud patterns. Making Ramp Research available internally via a headless API will allow teams to further customize the agent for their specific use cases.
+
+The context layer behind Ramp Research is also an incredibly valuable technical asset. Further automating the maintenance and improvement process would allow our team to expand its coverage beyond our analytics database.
+
+Ultimately, we see Ramp Research as the first step towards building the future of work at Ramp, where agents and people work collaboratively to deliver better, faster results.
+
+[### Like what you see? Join us →
+
+Come build the future of finance automation that increases the lifespan of businesses.](https://jobs.ashbyhq.com/ramp?utm_source=NrlKrPMv53)
+
+### Get our latest posts the moment they go live
+
+Subscribe
+
+© 2026 Ramp Business Corporation. "Ramp," "Ramp Financial" and the Ramp logo are trademarks of the company.
